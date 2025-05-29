@@ -1,0 +1,158 @@
+/* Navbar Styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #121212;
+  padding: 10px 20px;
+  color: white;
+  width: 100%;
+  box-sizing: border-box;
+  position: fixed; /* Fixed position to keep navbar visible */
+  top: 0; /* Stick to the top */
+  z-index: 1000; /* Ensure it appears above other content */
+  transition: background-color 0.3s ease-in-out; /* Smooth background transition */
+}
+
+.navbar.scrolled {
+  background-color: rgba(18, 18, 18, 0.9); /* Slightly transparent when scrolled */
+}
+
+.logo {
+  font-size: 2rem;
+  font-weight: bold;
+  color: yellow;
+}
+
+/* Navigation Links */
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li {
+  display: inline;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 500;
+  transition: color 0.3s ease-in-out;
+}
+
+.nav-links li a.active,
+.nav-links li a:hover {
+  color: yellow;
+  text-decoration: underline;
+}
+
+/* Contact Button */
+.contact-button {
+  background-color: white;
+  color: black;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.contact-button:hover {
+  background-color: yellow;
+}
+
+/* Contact Info Section */
+.contact-info {
+  position: absolute;
+  top: 100%;
+  right: 10px;
+  background-color: #1e1e1e;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-in-out;
+  max-width: 250px;
+}
+
+.contact-info h4 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: yellow;
+}
+
+.contact-info p {
+  margin: 8px 0;
+  font-size: 1rem;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.contact-info a {
+  color: yellow;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease-in-out;
+}
+
+.contact-info a:hover {
+  color: #ff7300;
+  text-decoration: underline;
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 10px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .nav-links li {
+    display: block;
+    width: 100%;
+  }
+
+  .contact-button {
+    margin-top: 15px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .contact-info {
+    width: 90%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
