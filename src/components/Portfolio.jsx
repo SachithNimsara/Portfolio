@@ -1,3 +1,4 @@
+// Portfolio.js
 import React, { useEffect, useRef, useState } from 'react';
 import './Portfolio.css';
 import myPhoto from './myPhoto.png';
@@ -8,13 +9,58 @@ import {
 } from 'react-icons/fa';
 import { Card, CardContent, Button, Typography, Grid, CardMedia } from '@mui/material';
 import PropTypes from 'prop-types';
-import * as SimpleIcons from 'simple-icons';
 import ReactDOM from 'react-dom';
 import emailjs from '@emailjs/browser';
+
+// TypingAnimation Component
+const TypingAnimation = ({ text, speed = 50, cursor = true, onComplete }) => {
+  const [displayedText, setDisplayedText] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [showCursor, setShowCursor] = useState(true);
+
+  useEffect(() => {
+    if (currentIndex < text.length) {
+      const timeout = setTimeout(() => {
+        setDisplayedText(prev => prev + text[currentIndex]);
+        setCurrentIndex(prev => prev + 1);
+      }, speed);
+
+      return () => clearTimeout(timeout);
+    } else if (onComplete) {
+      onComplete();
+    }
+  }, [currentIndex, text, speed, onComplete]);
+
+  useEffect(() => {
+    if (cursor) {
+      const blinkInterval = setInterval(() => {
+        setShowCursor(prev => !prev);
+      }, 500);
+
+      return () => clearInterval(blinkInterval);
+    }
+  }, [cursor]);
+
+  return (
+    <span>
+      {displayedText}
+      {cursor && <span className={`cursor ${showCursor ? 'visible' : 'hidden'}`}>|</span>}
+    </span>
+  );
+};
+
+TypingAnimation.propTypes = {
+  text: PropTypes.string.isRequired,
+  speed: PropTypes.number,
+  cursor: PropTypes.bool,
+  onComplete: PropTypes.func
+};
 
 // Portfolio Component (Home Page)
 const Portfolio = () => {
   const imageRef = useRef(null);
+  const [showAnimation, setShowAnimation] = useState(false);
+  const [animationComplete, setAnimationComplete] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,28 +69,59 @@ const Portfolio = () => {
         const rect = imageElement.getBoundingClientRect();
         if (rect.top < window.innerHeight) {
           imageElement.classList.add('show');
+          setShowAnimation(true);
           window.removeEventListener('scroll', handleScroll);
         }
       }
     };
 
     window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Run initially in case the image is already in view
+    handleScroll();
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleAnimationComplete = () => {
+    setAnimationComplete(true);
+  };
 
   return (
     <div id="home" className="portfolio">
       <div className="hero-section">
         <div className="text-content">
-          <h1>Hello,</h1>
-          <h2>I'm <span className="highlight">Sachith Nimsara</span></h2>
-          <h3>Website Designer</h3>
+          <h1>
+            <TypingAnimation text="Hello," speed={100} cursor={false} />
+          </h1>
+          <h2>
+            <TypingAnimation 
+              text="I'm Sachith Nimsara" 
+              speed={100} 
+              cursor={false}
+              onComplete={handleAnimationComplete}
+            />
+          </h2>
+          <h3>
+            {animationComplete && (
+              <TypingAnimation text="Website Designer" speed={100} />
+            )}
+          </h3>
           <p>
-            I am a skilled and passionate web designer with experience in creating visually appealing and user-friendly websites.
+            {animationComplete && (
+              <TypingAnimation 
+                text="I am a skilled and passionate web designer with experience in creating visually appealing and user-friendly websites."
+                speed={30}
+              />
+            )}
           </p>
-          <Button variant="contained" color="primary">Hire me</Button>
+          {animationComplete && (
+            <Button 
+              variant="contained" 
+              color="primary"
+              className="hire-me-btn"
+            >
+              Hire me
+            </Button>
+          )}
         </div>
         <div className="image-content">
           <img ref={imageRef} src={myPhoto} alt="Sachith Nimsara" />
@@ -170,8 +247,6 @@ ProjectCard.propTypes = {
 };
 
 // ContactForm Component (Contact Section)
-
-
 const ContactForm = () => {
   const form = useRef();
 
@@ -181,7 +256,7 @@ const ContactForm = () => {
     emailjs.sendForm('service_lr492bv', 'template_6tm1u2q', form.current, 'HcnYSSKj1vmtXBvWH')
       .then(() => {
         alert('Message sent successfully!');
-        form.current.reset(); // clear form
+        form.current.reset();
       }, (error) => {
         console.error('EmailJS error:', error.text);
         alert('Failed to send message.');
@@ -216,7 +291,7 @@ const ContactForm = () => {
   );
 };
 
-// TechSkillsOrbit Component (corrected implementation)
+// TechSkillsOrbit Component
 const TechSkillsOrbit = () => {
   const containerRef = useRef(null);
   const animationRef = useRef(null);
@@ -225,7 +300,6 @@ const TechSkillsOrbit = () => {
     const container = containerRef.current;
     if (!container) return;
 
-    // List of logos to display using react-icons instead of simple-icons
     const icons = [
       { component: <FaReact />, name: 'React', color: '#61DAFB' },
       { component: <FaNodeJs />, name: 'Node.js', color: '#68A063' },
@@ -242,7 +316,6 @@ const TechSkillsOrbit = () => {
       { component: <FaGoogle />, name: 'Google', color: '#4285F4' }
     ];
 
-    // Clear existing particles
     while (container.firstChild) {
       container.removeChild(container.firstChild);
     }
@@ -259,34 +332,28 @@ const TechSkillsOrbit = () => {
       particle.style.width = `${size}px`;
       particle.style.height = `${size}px`;
 
-      // Random position within the container
       const posX = Math.random() * (containerWidth - size);
       const posY = Math.random() * (containerHeight - size);
 
       particle.style.left = `${posX}px`;
       particle.style.top = `${posY}px`;
 
-      // Random velocity for movement
       const velocity = {
         x: (Math.random() - 0.5) * 2,
         y: (Math.random() - 0.5) * 2
       };
 
-      // Use the icon's color
       particle.style.color = icon.color;
       particle.style.boxShadow = `0 0 10px ${icon.color}, 0 0 20px ${icon.color}`;
 
-      // Tooltip for icon name
       const tooltip = document.createElement('div');
       tooltip.className = 'tooltip';
       tooltip.textContent = icon.name;
       particle.appendChild(tooltip);
 
-      // Icon container
       const iconContainer = document.createElement('div');
       iconContainer.className = 'icon-container';
       
-      // Create a temporary div to render the React icon component
       const tempDiv = document.createElement('div');
       ReactDOM.render(icon.component, tempDiv, () => {
         iconContainer.appendChild(tempDiv.firstChild);
@@ -302,7 +369,6 @@ const TechSkillsOrbit = () => {
       });
     });
 
-    // Animation function
     const animate = () => {
       const containerRect = container.getBoundingClientRect();
       const containerWidth = containerRect.width;
@@ -317,7 +383,6 @@ const TechSkillsOrbit = () => {
         posX += particle.velocity.x;
         posY += particle.velocity.y;
 
-        // Bounce off walls
         if (posX <= 0 || posX + particle.size >= containerWidth) {
           particle.velocity.x *= -1;
           posX = Math.max(0, Math.min(posX, containerWidth - particle.size));
@@ -351,4 +416,4 @@ const TechSkillsOrbit = () => {
   );
 };
 
-export { Portfolio, WhatIDo, PortfolioProjectsPage, ContactForm, TechSkillsOrbit };
+export { Portfolio, WhatIDo, PortfolioProjectsPage, ContactForm, TechSkillsOrbit, TypingAnimation };

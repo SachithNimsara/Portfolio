@@ -7,7 +7,7 @@ import AnimatedBackground  from './components/AnimatedBackground';
 function App() {
   return (
     <div className="App">
-       <AnimatedBackground />
+       
       <Navbar />
       <Portfolio />
       <WhatIDo />
