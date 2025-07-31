@@ -1,7 +1,7 @@
 import React from 'react';
 import { Portfolio, WhatIDo,ContactForm,PortfolioProjectsPage, TechSkillsOrbit} from './components/Portfolio'; // Import named exports
 import Navbar from './components/NavBar';
-import AnimatedBackground  from './components/AnimatedBackground';
+import './App.css';
  // Import the shared CSS file
 
 function App() {

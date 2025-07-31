@@ -2,12 +2,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './Portfolio.css';
 import myPhoto from './myPhoto.png';
+import OBD2 from './OBD2.jpg';
+import RMA from './RMA.jpg';
+import portfolio from './portfolio.png';
 import { 
   FaFacebook, FaTwitter, FaYoutube, FaInstagram, FaReact, FaNodeJs, 
   FaJs, FaCss3Alt, FaFigma, FaDatabase, FaGg, FaLinkedin, FaGoogle, 
   FaJsSquare, FaCreativeCommons, FaHtml5, FaPython, FaAws, FaDocker, FaGithub 
 } from 'react-icons/fa';
-import { Card, CardContent, Button, Typography, Grid, CardMedia } from '@mui/material';
+import { Card, CardContent, Button, Typography, Grid, CardMedia, Box } from '@mui/material';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import emailjs from '@emailjs/browser';
@@ -118,6 +121,7 @@ const Portfolio = () => {
               variant="contained" 
               color="primary"
               className="hire-me-btn"
+              onClick={() => window.location.href = '#contact'}
             >
               Hire me
             </Button>
@@ -135,23 +139,27 @@ const Portfolio = () => {
 const WhatIDo = () => {
   return (
     <section id="about" className="what-i-do">
-      <h2>What I Do</h2>
-      <p>
-        I am a skilled and passionate web designer with experience in creating visually appealing
-        and user-friendly websites. I have a strong understanding of design and a keen eye for
-        detail. I am proficient in HTML, CSS, and JavaScript, as well as design software such as
-        Adobe Photoshop and Illustrator.
-      </p>
+      <Box textAlign="center" mb={4}>
+        <h2>What I Do</h2>
+        <Box maxWidth="800px" mx="auto" px={2}>
+          <p>
+            I am a skilled and passionate web designer with experience in creating visually appealing
+            and user-friendly websites. I have a strong understanding of design and a keen eye for
+            detail. I am proficient in HTML, CSS, and JavaScript, as well as design software such as
+            Adobe Photoshop and Illustrator.
+          </p>
+        </Box>
+      </Box>
       <div className="services">
         <ServiceCard
           emoji="🖌️🎨 🖼️"
           title="UI/UX Design"
-          description="This is a demo text, you can write your own content here."
+          description="Creating intuitive and beautiful user interfaces with a focus on user experience and accessibility."
         />
         <ServiceCard
           emoji="🌐 ⚛️ 🐘 🌿"
           title="Website Design"
-          description="This demo text can be changed while making the production-ready site."
+          description="Building responsive, modern websites with clean code and optimized performance."
         />
       </div>
     </section>
@@ -162,7 +170,7 @@ const WhatIDo = () => {
 const ServiceCard = ({ emoji, title, description }) => {
   return (
     <div className="service-card">
-      <span role="img" aria-label={title}>{emoji}</span>
+      <span role="img" aria-label={title} className="service-emoji">{emoji}</span>
       <h3>{title}</h3>
       <p>{description}</p>
     </div>
@@ -179,59 +187,119 @@ ServiceCard.propTypes = {
 const PortfolioProjectsPage = () => {
   const projects = [
     {
-      title: 'Project 1',
-      description: 'Description for project 1.',
-      image: 'https://via.placeholder.com/300x400?text=Project+1',
+      title: 'OBD2 Project',
+      description: 'In this project, I developed a web application that interfaces with OBD2 devices to provide real-time vehicle diagnostics and data visualization. for first year Hardware project.',
+      image: OBD2,
+      tags: ['React', 'PHP', 'mySQL'],
+      link: 'https://github.com/SachithNimsara/MotoMatrix.git'
     },
     {
-      title: 'Project 2',
-      description: 'Description for project 2.',
-      image: 'https://via.placeholder.com/300x400?text=Project+2',
+      title: 'RMA Web Application',
+      description: 'This project involved creating a web application for managing Return Merchandise Authorization (RMA) processes. It includes features for tracking product returns, managing customer requests, and generating reports.',
+      image: RMA,
+      tags: ['React', 'springboot', 'MySQL'],
+      link: ''
     },
     {
-      title: 'Project 3',
-      description: 'Description for project 3.',
-      image: 'https://via.placeholder.com/300x400?text=Project+3',
+      title: 'Portfolio Project',
+      description: 'This is my personal portfolio website where I showcase my skills, projects, and experiences. It includes sections for my work, skills, and contact information.',
+      image: portfolio,
+      tags: ['React',  'CSS3'],
+      link: 'https://github.com/SachithNimsara/Portfolio.git'
     },
   ];
 
   return (
     <section id="portfolio" className="portfolio-projects">
-      <div className="portfolio-page bg-black text-white py-10">
-        <Typography variant="h2" align="center" gutterBottom>
+      <Box className="portfolio-page bg-black text-white py-10" textAlign="center">
+        <Typography variant="h2" gutterBottom>
           My Portfolio
         </Typography>
-        <Typography variant="body1" align="center" className="mb-8 max-w-2xl mx-auto">
-          I take pride in paying attention to the smallest details and making sure that my work is pixel perfect.
-        </Typography>
+        <Box maxWidth="800px" mx="auto" px={2} mb={6}>
+          <Typography variant="body1">
+            I take pride in paying attention to the smallest details and making sure that my work is pixel perfect.
+          </Typography>
+        </Box>
         <Grid container spacing={4} justifyContent="center">
           {projects.map((project, index) => (
             <ProjectCard key={index} project={project} />
           ))}
         </Grid>
-      </div>
+      </Box>
     </section>
   );
 };
 
-// ProjectCard Component
+// ProjectCard Component with hover effects
 const ProjectCard = ({ project }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
     <Grid item xs={12} sm={6} md={4}>
-      <Card className="project-card">
-        <CardMedia
-          component="img"
-          height="300"
-          image={project.image}
-          alt={project.title}
-        />
-        <CardContent>
-          <Typography variant="h5" component="div">
+      <Card 
+        className="project-card"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        sx={{
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+          transform: isHovered ? 'translateY(-10px)' : 'none',
+          boxShadow: isHovered ? '0 10px 20px rgba(0,0,0,0.2)' : '0 4px 8px rgba(0,0,0,0.1)',
+          position: 'relative',
+          overflow: 'hidden',
+          '&:hover .project-image': {
+            transform: 'scale(1.05)'
+          }
+        }}
+      >
+        <Box sx={{ overflow: 'hidden' }}>
+          <CardMedia
+            component="img"
+            height="250"
+            image={project.image}
+            alt={project.title}
+            className="project-image"
+            sx={{
+              transition: 'transform 0.5s ease',
+              objectFit: 'cover'
+            }}
+          />
+        </Box>
+        <CardContent sx={{ flexGrow: 1 }}>
+          <Typography variant="h5" component="div" gutterBottom>
             {project.title}
           </Typography>
-          <Typography variant="body2" color="textSecondary">
+          <Typography variant="body2" color="text.secondary" mb={2}>
             {project.description}
           </Typography>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
+            {project.tags.map((tag, index) => (
+              <Typography 
+                key={index} 
+                variant="caption" 
+                sx={{
+                  backgroundColor: 'primary.light',
+                  color: 'primary.contrastText',
+                  px: 1,
+                  py: 0.5,
+                  borderRadius: 1
+                }}
+              >
+                {tag}
+              </Typography>
+            ))}
+          </Box>
+          <Button 
+            variant="contained" 
+            color="primary" 
+            fullWidth
+            href={project.link}
+            sx={{ mt: 'auto' }}
+          >
+            View Project
+          </Button>
         </CardContent>
       </Card>
     </Grid>
@@ -243,6 +311,8 @@ ProjectCard.propTypes = {
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
+    tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+    link: PropTypes.string.isRequired,
   }).isRequired,
 };
 
@@ -265,10 +335,14 @@ const ContactForm = () => {
 
   return (
     <section id="contact" className="contact-container">
-      <h1 className="contact-title">Contact Me</h1>
-      <p className="contact-subtitle">Please fill out the form below to discuss any work opportunities.</p>
+      <Box textAlign="center" mb={4}>
+        <h1 className="contact-title">Contact Me</h1>
+        <Box maxWidth="600px" mx="auto">
+          <p className="contact-subtitle">Please fill out the form below to discuss any work opportunities.</p>
+        </Box>
+      </Box>
 
-      <Card className="contact-card">
+      <Card className="contact-card" sx={{ maxWidth: '600px', mx: 'auto' }}>
         <CardContent>
           <form ref={form} onSubmit={handleSubmit} className="contact-form">
             <input type="text" name="user_name" placeholder="Your name" className="contact-input" required />
@@ -411,7 +485,9 @@ const TechSkillsOrbit = () => {
 
   return (
     <div id="skills" className="orbit-container" ref={containerRef}>
-      <h2>My Tech Skills</h2>
+      <Box textAlign="center" mb={4}>
+        <h2>My Tech Skills</h2>
+      </Box>
     </div>
   );
 };
