@@ -145,8 +145,7 @@ const WhatIDo = () => {
           <p>
             I am a skilled and passionate web designer with experience in creating visually appealing
             and user-friendly websites. I have a strong understanding of design and a keen eye for
-            detail. I am proficient in HTML, CSS, and JavaScript, as well as design software such as
-            Adobe Photoshop and Illustrator.
+            detail. I am proficient in HTML, CSS, ReactJs, SpringBoot, MySQL, PHP, Firebase, C ,python and JavaScript 
           </p>
         </Box>
       </Box>
@@ -154,12 +153,12 @@ const WhatIDo = () => {
         <ServiceCard
           emoji="🖌️🎨 🖼️"
           title="UI/UX Design"
-          description="Creating intuitive and beautiful user interfaces with a focus on user experience and accessibility."
+          description="Creating intuitive and beautiful user interfaces with a focus on user experience and accessibility.Figma, Adobe XD, and Sketch."
         />
         <ServiceCard
           emoji="🌐 ⚛️ 🐘 🌿"
           title="Website Design"
-          description="Building responsive, modern websites with clean code and optimized performance."
+          description="Building responsive, modern websites with clean code and optimized performance. react, HTML, CSS, springboot, MySQL, PHP, Firebase, C ,python and JavaScript."
         />
       </div>
     </section>
@@ -492,4 +491,4 @@ const TechSkillsOrbit = () => {
   );
 };
 
-export { Portfolio, WhatIDo, PortfolioProjectsPage, ContactForm, TechSkillsOrbit, TypingAnimation };
+export { Portfolio, WhatIDo, PortfolioProjectsPage, ContactForm, TechSkillsOrbit, TypingAnimation }; 
