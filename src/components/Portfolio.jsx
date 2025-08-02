@@ -491,4 +491,4 @@ const TechSkillsOrbit = () => {
   );
 };
 
-export { Portfolio, WhatIDo, PortfolioProjectsPage, ContactForm, TechSkillsOrbit, TypingAnimation }; 
+export { Portfolio, WhatIDo, PortfolioProjectsPage, ContactForm, TechSkillsOrbit, TypingAnimation };
